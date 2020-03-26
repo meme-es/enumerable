@@ -85,4 +85,27 @@ module Enumerable
       my_none? { |item| item == parameter }
     end
   end
+
+  def my_count(parameter = :no_parameter)
+    counter = 0
+    if parameter != :no_parameter
+      my_each { |item| counter += 1 if item == parameter }
+      return counter
+    end
+
+    if block_given?
+      my_each { |item| counter += 1 if yield(item) }
+    else
+      my_each { counter += 1 }
+    end
+    counter
+  end
+
+  def my_map
+    newarray = []
+    return to_enum unless block_given?
+
+    length.times { |index| newarray << yield(self[index]) }
+    newarray
+  end
 end
