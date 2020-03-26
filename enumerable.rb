@@ -12,4 +12,12 @@ module Enumerable
     length.times { |index| yield(self[index], index) }
     self
   end
+
+  def my_select
+    return to_enum unless block_given?
+
+    array = []
+    my_each { |item| array << item if yield(item) }
+    array
+  end
 end
