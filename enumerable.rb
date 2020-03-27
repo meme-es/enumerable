@@ -70,10 +70,11 @@ module Enumerable
   end
 
   def my_map
+    tmp_array = to_a
     newarray = []
     return to_enum unless block_given?
 
-    length.times { |index| newarray << yield(self[index]) }
+    tmp_array.length.times { |index| newarray << yield(tmp_array[index]) }
     newarray
   end
 
@@ -89,3 +90,10 @@ module Enumerable
     result
   end
 end
+
+def multiply_els(the_array)
+  the_array.my_inject { |result, item| result * item }
+end
+
+# testing my_inject using multiply_els
+puts multiply_els([1, 2, 3, 4, 5])
