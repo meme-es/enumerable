@@ -34,4 +34,24 @@ RSpec.describe Enumerable do
       end
     end
   end
+
+  describe '#my_select' do
+    context 'When there is no block given' do
+      it 'returns enum' do
+        expect(numbers.my_select).to be_an_instance_of(Enumerator)
+      end
+    end
+
+    context 'When there is a block given' do
+      it 'returns an array with the matching elements of the block operation' do
+        expect(numbers.my_select { |item| item > 10 }).to eql(numbers.select { |item| item > 10 })
+      end
+    end
+
+    context 'When there is a operation given as a parameter' do
+      it 'returns an array with the matching elements of the operation' do
+        expect(numbers.my_select(&:even?)).to eql(numbers.select(&:even?))
+      end
+    end
+  end
 end
