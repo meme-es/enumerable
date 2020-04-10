@@ -143,7 +143,7 @@ RSpec.describe Enumerable do
 
     context 'When there is a parameter given as' do
       context 'a literal' do
-        it 'returns true if any element have the same value' do
+        it 'returns true if any element has the same value' do
           expect(numbers.my_any?(3)).to eql(numbers.any?(3))
         end
 
@@ -169,6 +169,63 @@ RSpec.describe Enumerable do
 
         it 'returns false if no one is an instance of the class given' do
           expect(%w[one two three].my_any?(Integer)).to eql(%w[one two three].any?(Integer))
+        end
+      end
+    end
+  end
+
+  describe '#my_none?' do
+    context 'When there is no block given' do
+      it 'returns true if the array is empty' do
+        expect([].my_none?).to eql([].none?)
+      end
+
+      it 'return true if all items are nil or false' do
+        expect([nil, nil, nil].my_none?).to eql([nil, nil, nil].none?)
+      end
+
+      it 'return false if any element is not nil or false' do
+        expect([nil, nil, 'Hello!'].my_none?).to eql([nil, nil, 'Hello!'].none?)
+      end
+    end
+
+    context 'When there is a block given' do
+      it 'return true if no one item pass the test block' do
+        expect(numbers.my_none? { |item| item % 7 == 0 }).to eql(numbers.none? { |item| item % 7 == 0 })
+      end
+      it 'return false if any item pass the test block' do
+        expect(birds.my_none? { |item| item.length == 6 }).to eql(birds.none? { |item| item.length == 6 })
+      end
+    end
+
+    context 'When there is a parameter given as' do
+      context 'a literal' do
+        it 'returns true if no one element has the same value' do
+          expect(numbers.my_none?(100)).to eql(numbers.none?(100))
+        end
+
+        it 'returns false if any element has the same value' do
+          expect(numbers.my_none?(3)).to eql(numbers.none?(3))
+        end
+      end
+
+      context 'a regular expression' do
+        it "returns true if the regular expression doesn't match any item" do
+          expect(animals.my_none?(/w/)).to eql(animals.none?(/w/))
+        end
+
+        it 'returns false if the regular expression match any item' do
+          expect(animals.my_none?(/l/)).to eql(animals.none?(/l/))
+        end
+      end
+
+      context 'a class' do
+        it 'returns true if no one is an instance of the class given' do
+          expect(%w[one two three].my_none?(Integer)).to eql(%w[one two three].none?(Integer))
+        end
+
+        it 'returns false if any element is an instance of the class given' do
+          expect(['one', 'two', 3].my_none?(Integer)).to eql(['one', 'two', 3].none?(Integer))
         end
       end
     end
