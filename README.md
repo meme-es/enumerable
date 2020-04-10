@@ -15,7 +15,7 @@ You need to have instaled Ruby in your machine or use a live interpreter, like [
 If you have installed Ruby on your computer you can interact with the methods in the enumerable.rb putting your own code into the file and then running the next command:
 
 ```Ruby
-Ruby enumerable.rb
+ruby enumerable.rb
 ```
 
 ## Authors

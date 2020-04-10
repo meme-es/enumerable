@@ -64,8 +64,8 @@ RSpec.describe Enumerable do
         expect(animals.my_all?).to eql(animals.all?)
       end
 
-      it 'returns false if any of the items is nil or false' do
-        expect(num_with_nil.my_all?).to eql(num_with_nil.all?)
+      it "doesn't return true if any of the items is nil or false" do
+        expect(num_with_nil.my_all?).not_to eql(true)
       end
 
       it 'returns true if the array is empty' do
@@ -78,8 +78,8 @@ RSpec.describe Enumerable do
         expect(birds.my_all? { |item| item.length >= 4 }).to eql(birds.all? { |item| item.length >= 4 })
       end
 
-      it "returns false if any item doesn't pass the block test" do
-        expect(birds.my_all? { |item| item.length == 6 }).to eql(birds.all? { |item| item.length == 6 })
+      it "doesn't return true if any item doesn't pass the block test" do
+        expect(birds.my_all? { |item| item.length == 6 }).not_to eql(true)
       end
     end
 
@@ -89,8 +89,8 @@ RSpec.describe Enumerable do
           expect(same_num.my_all?(5)).to eql(same_num.all?(5))
         end
 
-        it "returns false if any elements haven't the same value" do
-          expect(numbers.my_all?(3)).to eql(numbers.all?(3))
+        it "doesnt' return true if any elements haven't the same value" do
+          expect(numbers.my_all?(3)).not_to eql(true)
         end
       end
 
@@ -99,8 +99,8 @@ RSpec.describe Enumerable do
           expect(animals.my_all?(/e/)).to eql(animals.all?(/e/))
         end
 
-        it "returns false if any item doesn't match the given expression" do
-          expect(animals.my_all?(/a/)).to eql(animals.all?(/a/))
+        it "doesn't return true if any item doesn't match the given expression" do
+          expect(animals.my_all?(/a/)).not_to eql(true)
         end
       end
 
@@ -109,8 +109,8 @@ RSpec.describe Enumerable do
           expect(numbers.my_all?(Integer)).to eql(numbers.all?(Integer))
         end
 
-        it "returns false if any element isn't an instance of the class given" do
-          expect(num_with_nil.my_all?(Integer)).to eql(num_with_nil.all?(Integer))
+        it "doesn't return true if any element isn't an instance of the class given" do
+          expect(num_with_nil.my_all?(Integer)).not_to eql(true)
         end
       end
     end
@@ -118,16 +118,16 @@ RSpec.describe Enumerable do
 
   describe '#my_any?' do
     context 'when there is no block given' do
-      it 'returns false if the array is empty' do
-        expect([].my_any?).to eql([].any?)
-      end
-
-      it 'returns false if all items are nil or false' do
-        expect([false, false, false].my_any?).to eql([false, false, false].any?)
-      end
-
       it 'returns true if any element is different to nil and false' do
         expect(num_with_nil.my_any?).to eql(num_with_nil.any?)
+      end
+
+      it "doesn't return true if the array is empty" do
+        expect([].my_any?).not_to eql(true)
+      end
+
+      it "doesn't return true if all items are nil or false" do
+        expect([false, false, false].my_any?).not_to eql(true)
       end
     end
 
@@ -147,8 +147,8 @@ RSpec.describe Enumerable do
           expect(numbers.my_any?(3)).to eql(numbers.any?(3))
         end
 
-        it 'returns false if no one element has the same value' do
-          expect(numbers.my_any?(100)).to eql(numbers.any?(100))
+        it "doesn't return true if no one element has the same value" do
+          expect(numbers.my_any?(100)).not_to eql(true)
         end
       end
 
@@ -184,8 +184,8 @@ RSpec.describe Enumerable do
         expect([nil, nil, nil].my_none?).to eql([nil, nil, nil].none?)
       end
 
-      it 'return false if any element is not nil or false' do
-        expect([nil, nil, 'Hello!'].my_none?).to eql([nil, nil, 'Hello!'].none?)
+      it "doesn't return true if any element is not nil or false" do
+        expect([nil, nil, 'Hello!'].my_none?).not_to eql(true)
       end
     end
 
@@ -193,8 +193,8 @@ RSpec.describe Enumerable do
       it 'return true if no one item pass the test block' do
         expect(numbers.my_none? { |item| item % 7 == 0 }).to eql(numbers.none? { |item| item % 7 == 0 })
       end
-      it 'return false if any item pass the test block' do
-        expect(birds.my_none? { |item| item.length == 6 }).to eql(birds.none? { |item| item.length == 6 })
+      it "doesn't return true if any item pass the test block" do
+        expect(birds.my_none? { |item| item.length == 6 }).not_to eql(true)
       end
     end
 
@@ -224,8 +224,8 @@ RSpec.describe Enumerable do
           expect(%w[one two three].my_none?(Integer)).to eql(%w[one two three].none?(Integer))
         end
 
-        it 'returns false if any element is an instance of the class given' do
-          expect(['one', 'two', 3].my_none?(Integer)).to eql(['one', 'two', 3].none?(Integer))
+        it "doesn't return true if any element is an instance of the class given" do
+          expect(['one', 'two', 3].my_none?(Integer)).not_to eql(true)
         end
       end
     end
