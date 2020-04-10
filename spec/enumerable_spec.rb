@@ -11,13 +11,13 @@ RSpec.describe Enumerable do
   let(:same_num) { [5, 5, 5, 5, 5] }
 
   describe '#my_each' do
-    context 'When there is no block given' do
+    context 'when there is no block given' do
       it 'returns enum' do
         expect(numbers.my_each).to be_an_instance_of(Enumerator)
       end
     end
 
-    context 'When there is a block given' do
+    context 'when there is a block given' do
       it 'returns self' do
         expect(numbers.my_each { |item| item + 5 }).to eql(numbers)
       end
@@ -25,13 +25,13 @@ RSpec.describe Enumerable do
   end
 
   describe '#my_each_with_index' do
-    context 'When there is no block given' do
+    context 'when there is no block given' do
       it 'returns enum' do
         expect(numbers.my_each_with_index).to be_an_instance_of(Enumerator)
       end
     end
 
-    context 'When there is a block given' do
+    context 'when there is a block given' do
       it 'returns self' do
         expect(numbers.my_each_with_index { |value, _index| value + 5 }).to eql(numbers)
       end
@@ -39,19 +39,19 @@ RSpec.describe Enumerable do
   end
 
   describe '#my_select' do
-    context 'When there is no block given' do
+    context 'when there is no block given' do
       it 'returns enum' do
         expect(numbers.my_select).to be_an_instance_of(Enumerator)
       end
     end
 
-    context 'When there is a block given' do
+    context 'when there is a block given' do
       it 'returns an array with the matching elements of the block operation' do
         expect(numbers.my_select { |item| item > 10 }).to eql(numbers.select { |item| item > 10 })
       end
     end
 
-    context 'When there is a block given as a parameter' do
+    context 'when there is a block given as an argument' do
       it 'returns an array with the matching elements of the operation' do
         expect(numbers.my_select(&:even?)).to eql(numbers.select(&:even?))
       end
@@ -59,7 +59,7 @@ RSpec.describe Enumerable do
   end
 
   describe '#my_all?' do
-    context 'When there is no block given' do
+    context 'when there is no block given' do
       it 'returns true if there is not nil or false items' do
         expect(animals.my_all?).to eql(animals.all?)
       end
@@ -73,7 +73,7 @@ RSpec.describe Enumerable do
       end
     end
 
-    context 'When there is a block given' do
+    context 'when there is a block given' do
       it 'returns true if all items pass the block test' do
         expect(birds.my_all? { |item| item.length >= 4 }).to eql(birds.all? { |item| item.length >= 4 })
       end
@@ -83,7 +83,7 @@ RSpec.describe Enumerable do
       end
     end
 
-    context 'When there is a parameter given as' do
+    context 'when there is an argument given as' do
       context 'a literal' do
         it 'returns true if all elements have the same value' do
           expect(same_num.my_all?(5)).to eql(same_num.all?(5))
@@ -117,7 +117,7 @@ RSpec.describe Enumerable do
   end
 
   describe '#my_any?' do
-    context 'When there is no block given' do
+    context 'when there is no block given' do
       it 'returns false if the array is empty' do
         expect([].my_any?).to eql([].any?)
       end
@@ -131,7 +131,7 @@ RSpec.describe Enumerable do
       end
     end
 
-    context 'When there is a block given' do
+    context 'when there is a block given' do
       it 'returns true if any element pass the block test' do
         expect(birds.my_any? { |item| item.length == 6 }).to eql(birds.any? { |item| item.length == 6 })
       end
@@ -141,7 +141,7 @@ RSpec.describe Enumerable do
       end
     end
 
-    context 'When there is a parameter given as' do
+    context 'when there is an argument given as' do
       context 'a literal' do
         it 'returns true if any element has the same value' do
           expect(numbers.my_any?(3)).to eql(numbers.any?(3))
@@ -175,7 +175,7 @@ RSpec.describe Enumerable do
   end
 
   describe '#my_none?' do
-    context 'When there is no block given' do
+    context 'when there is no block given' do
       it 'returns true if the array is empty' do
         expect([].my_none?).to eql([].none?)
       end
@@ -189,7 +189,7 @@ RSpec.describe Enumerable do
       end
     end
 
-    context 'When there is a block given' do
+    context 'when there is a block given' do
       it 'return true if no one item pass the test block' do
         expect(numbers.my_none? { |item| item % 7 == 0 }).to eql(numbers.none? { |item| item % 7 == 0 })
       end
@@ -198,7 +198,7 @@ RSpec.describe Enumerable do
       end
     end
 
-    context 'When there is a parameter given as' do
+    context 'when there is an argument given as' do
       context 'a literal' do
         it 'returns true if no one element has the same value' do
           expect(numbers.my_none?(100)).to eql(numbers.none?(100))
@@ -227,6 +227,54 @@ RSpec.describe Enumerable do
         it 'returns false if any element is an instance of the class given' do
           expect(['one', 'two', 3].my_none?(Integer)).to eql(['one', 'two', 3].none?(Integer))
         end
+      end
+    end
+  end
+
+  describe '#my_count' do
+    context 'when there is no block given' do
+      it 'returns the number of elements in the array' do
+        expect(numbers.my_count).to eql(numbers.count)
+      end
+    end
+
+    context 'when there is an argument given as' do
+      context 'a literal' do
+        it 'returns the number of elements with the same value' do
+          expect(numbers.my_count(3)).to eql(numbers.count(3))
+        end
+      end
+
+      context 'as a block' do
+        it 'returns the number of elements that match the block' do
+          expect(numbers.my_count(&:even?)).to eql(numbers.count(&:even?))
+        end
+      end
+    end
+  end
+
+  describe '#my_map' do
+    context 'when there is no block given' do
+      it 'returns enum' do
+        expect(numbers.my_map).to be_an_instance_of(Enumerator)
+      end
+    end
+
+    context 'when there is a block given' do
+      it 'returns an array with the true or false matching' do
+        expect(numbers.my_map { |item| item % 5 == 0 }).to eql(numbers.map { |item| item % 5 == 0 })
+      end
+    end
+
+    context 'when there is an argument given as a block' do
+      it 'returns an array with the true or false matching' do
+        expect(numbers.my_map(&:even?)).to eql(numbers.map(&:even?))
+      end
+    end
+
+    context 'when a range is used in combination with a block given' do
+      it 'returns an array with elements given by the processing of the block' do
+        expect((1..5).my_map { |i| i * i }).to eql((1..5).map { |i| i * i })
       end
     end
   end
