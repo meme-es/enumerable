@@ -4,11 +4,11 @@ require './enumerable'
 
 RSpec.describe Enumerable do
   let(:numbers) { [10, 20, 30, 40, 3] }
-  let(:str_numbers) { %w[5 10 15 20 25] }
   let(:animals) { %w[eagle camel horse hyena] }
   let(:birds) { %w[crow peacock turkey pigeon] }
   let(:num_with_nil) { [1, 2, 3, 4, nil] }
   let(:same_num) { [5, 5, 5, 5, 5] }
+  let(:greeting) { %w[Hello word I am a programmer] }
 
   describe '#my_each' do
     context 'when there is no block given' do
@@ -274,7 +274,57 @@ RSpec.describe Enumerable do
 
     context 'when a range is used in combination with a block given' do
       it 'returns an array with elements given by the processing of the block' do
-        expect((1..5).my_map { |i| i * i }).to eql((1..5).map { |i| i * i })
+        expect((1..5).my_map { |item| item**2 }).to eql((1..5).map { |item| item**2 })
+      end
+    end
+  end
+
+  describe '#my_inject' do
+    context 'when there is a block given' do
+      it 'returns a result by applying the block operation over all elements' do
+        expect(greeting.my_inject { |l, r| l + ' ' + r }).to eql(greeting.inject { |l, r| l + ' ' + r })
+      end
+    end
+
+    context 'when a range is used in combination with a block given' do
+      it 'returns a result by applying the block operation over all iten in the range' do
+        expect((1..4).my_inject { |sum, n| sum + n }).to eql((1..4).inject { |sum, n| sum + n })
+      end
+    end
+
+    context 'when there is a block given and a initial value as argument' do
+      it 'returns a result by applying the block operation over all elements starting with the argument' do
+        expect(numbers.my_inject(5) { |mul, n| mul + n }).to eql(numbers.inject(5) { |mul, n| mul + n })
+      end
+    end
+
+    context 'when a range is used in combination with a block given and a initial value as argument' do
+      it 'returns a result by applying the block operation over all iten in the range starting with the argument' do
+        expect((1..4).my_inject(3) { |sum, n| sum + n }).to eql((1..4).inject(3) { |sum, n| sum + n })
+      end
+    end
+
+    context 'when a symbol is given as argument' do
+      it 'returns the result of the operation' do
+        expect(numbers.my_inject(:+)).to eql(numbers.inject(:+))
+      end
+    end
+
+    context 'when a symbol is given as argument with an initial value' do
+      it 'returns the result of the operation starting with the initial value' do
+        expect(numbers.my_inject(5, :+)).to eql(numbers.inject(5, :+))
+      end
+    end
+
+    context 'when a string is given as argument representing an operation' do
+      it 'returns the result of the operation' do
+        expect(numbers.my_inject('*')).to eql(numbers.inject(5, '*'))
+      end
+    end
+
+    context 'when a string is given as argument representing an operation with an initial value' do
+      it 'returns the result of the operation starting with the initial value' do
+        expect(numbers.my_inject(5, '*')).to eql(numbers.inject(5, '*'))
       end
     end
   end
