@@ -318,7 +318,7 @@ RSpec.describe Enumerable do
 
     context 'when a string is given as argument representing an operation' do
       it 'returns the result of the operation' do
-        expect(numbers.my_inject('*')).to eql(numbers.inject(5, '*'))
+        expect(numbers.my_inject('*')).to eql(numbers.inject('*'))
       end
     end
 
